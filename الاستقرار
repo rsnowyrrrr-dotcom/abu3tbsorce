@@ -1,0 +1,55 @@
+-- LocalScript – ضع السكربت في StarterPlayer > StarterPlayerScripts
+
+-- إعدادات الشبكة
+local NetworkSettings = settings():GetService("NetworkSettings")
+
+pcall(function()
+    NetworkSettings.IncomingReplicationLag = 1 -- تأخير التحديثات الواردة (يوفر استهلاك)
+    NetworkSettings.IncomingReplicationThrottle = 0.5
+    NetworkSettings.OutgoingReplicationThrottle = 0.5
+    NetworkSettings.RenderThrottlePercentage = 10 -- تقليل الجرافيكس/العرض
+    NetworkSettings.MaximumPhysicsStepTime = 0.1 -- تقليل تحديث الفيزياء
+end)
+
+-- تقليل الفريمات لتوفير المعالج والطاقة
+pcall(function()
+    if setfpscap then
+        setfpscap(15) -- أقل عدد فريمات مقبول للبقاء
+    end
+end)
+
+-- تعطيل بعض عمليات RunService لتقليل الحمل
+local RunService = game:GetService("RunService")
+for _, conn in pairs(getconnections(RunService.Heartbeat)) do
+    pcall(function()
+        conn:Disable()
+    end)
+end
+
+-- تعطيل الأنيميشنات غير الضرورية (اختياري)
+pcall(function()
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+    for _, anim in pairs(char:GetDescendants()) do
+        if anim:IsA("Animation") or anim:IsA("Animator") then
+            anim:Destroy()
+        end
+    end
+end)
+
+-- منع الطرد بسبب kick
+pcall(function()
+    local mt = getrawmetatable(game)
+    setreadonly(mt, false)
+    local old = mt.__namecall
+    mt.__namecall = newcclosure(function(self, ...)
+        local args = {...}
+        local method = getnamecallmethod()
+        if method == "Kick" then
+            return nil
+        end
+        return old(self, unpack(args))
+    end)
+end)
+
+print("🟢 وضع البقاء المفعل: أقل استهلاك + منع الطرد + إطالة مدة الجلسة")
