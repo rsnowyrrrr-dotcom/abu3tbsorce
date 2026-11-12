@@ -1,0 +1,23 @@
+local Players = game:GetService("Players")
+
+local function strip(character)
+    for _, v in ipairs(character:GetChildren()) do
+        if v:IsA("Accessory") 
+        or v:IsA("Shirt") 
+        or v:IsA("Pants") 
+        or v:IsA("ShirtGraphic") then
+            v:Destroy()
+        end
+    end
+end
+
+for _, plr in ipairs(Players:GetPlayers()) do
+    if plr.Character then
+        strip(plr.Character)
+    end
+    plr.CharacterAdded:Connect(strip)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    plr.CharacterAdded:Connect(strip)
+end)
