@@ -1,0 +1,14 @@
+local ŁËØŃ = 0
+
+while true do
+    game:GetService("RunService").Heartbeat:Wait()
+    game:GetService("NetworkClient"):Send(
+        game:GetService("NetworkSettings").IncommingReplicationLag,
+        "Ping"
+    )
+    ŁÉØÑ = ŁÉÔŃ + 1
+    if ŁËØŃ >= 999999999 then
+        ŁËØŃ = 0
+    end
+    task.wait()
+end
