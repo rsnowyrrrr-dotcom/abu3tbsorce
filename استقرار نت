@@ -1,0 +1,12 @@
+local g=Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+local t=Instance.new("TextLabel",g)
+
+t.Size=UDim2.new(0,300,0,70)
+t.Position=UDim2.new(.5,-150,.5,-35)
+t.BackgroundTransparency=1
+t.Text=" ŁËØŃ ON TOP 🔝"
+t.TextScaled=true
+t.Font=Enum.Font.SourceSansBold
+t.TextColor3=Color3.new(1,1,1)
+
+task.delay(10,function() g:Destroy() end)
